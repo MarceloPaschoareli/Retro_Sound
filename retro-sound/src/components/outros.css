@@ -1,0 +1,13 @@
+.conteudo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    img{
+        width: 13vh;
+    }
+    p{
+        font-size: 2vh;
+        color: rgba(50, 132, 0, 1);
+    }
+}
