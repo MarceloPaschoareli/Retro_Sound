@@ -1,0 +1,6 @@
+
+function AdicionarCarrinho(){
+    
+}
+
+export {AdicionarCarrinho}

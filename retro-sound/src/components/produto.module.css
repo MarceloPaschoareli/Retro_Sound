@@ -1,0 +1,60 @@
+.tudo{
+    background-color: rgba(251, 245, 221, 1);
+    border-radius: 1.5vh;
+    height: 35vh;
+    box-shadow: rgb(169, 162, 162)  0.3vh 0.3vh 0.3vh 0.3vh;
+    width: 95vh;
+    display: flex;
+    align-items: center;
+    gap: 6vh;
+}
+
+.scar{
+    display: flex;
+    justify-content: center;
+}
+
+.imagem{
+    padding-left: 3vh;
+    img{
+        width: 25vh;
+    }
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+#quant{
+    display: flex;
+    gap: 3vh;
+
+    img{
+        width: 2vh;
+    }
+
+    p{
+        margin: 0vh;
+    }
+    input{
+        display: flex;
+        width: 1.5vh;
+        height: 2vh;
+        border-radius: 0.3vh;
+        background-color: rgba(0, 255, 255, 0);
+        outline: none;
+        border: solid 0.3vh black;
+    }
+    #choose{
+        display: flex;
+        gap: 2vh;
+    }
+    
+}
+
+.preco{
+    font-size: 3vh;
+    padding-top: 22vh;
+}

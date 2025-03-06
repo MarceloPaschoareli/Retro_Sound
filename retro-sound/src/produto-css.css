@@ -1,0 +1,115 @@
+.content {
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+}
+
+.produto {
+    width: 150vh;
+    border: solid black 0.5vh;
+    padding: 2vh 3.5vh 4vh 3.5vh;
+    h2 {
+        margin: 3vh 3vh 3vh 8vh;
+        font-size: 6vh;
+        font-weight: bold;
+        font-family: 'Poppins', sans-serif;
+    }
+}
+
+#info {
+    display: flex;
+    flex-direction: row;
+    margin: 2vh 6vh 3vh 6vh;
+    #imagem {
+        width: 45vh;
+    }
+}
+
+.other {
+    margin-left: 20vh;
+}
+
+#preco {
+    display: flex;
+    flex-direction: column;
+    span {
+        font-weight: 600;
+        text-decoration: line-through;
+        font-size: 2vh;
+    }
+    p {
+        color: rgba(50, 132, 0, 1);
+        font-size: 5vh;
+        font-weight: 700;
+        margin: 0vh;
+    }
+}
+
+#parcela {
+    margin-top: 3vh;
+    font-size: 2.3vh;
+    width: 12vh;
+}
+
+#pag {
+    display: flex;
+    .h3 {
+        display: flex;
+        justify-content: center;
+        width: 30vh;
+        margin-left: 4vh;
+        background-color: rgba(22, 64, 77, 1);
+        color: white;
+        height: 7vh;
+        border-radius: 0.5vh;
+        font-size: 2vh;
+        outline: none;  
+        border: 0vh;
+    }
+
+    .h3:hover {
+        outline: auto rgba(251, 245, 221, 1);
+    }
+}
+
+.outros {
+    font-size: 2.3vh;
+    margin-top: 9vh;
+    font-weight: 600;
+}
+
+#produtos-outros {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.separador{
+    font-size: 1.5vh;
+    color: rgba(22, 64, 77, 1);
+    margin: 5vh 0vh 5vh 0vh;
+    background-color:rgba(22, 64, 77, 1) ;
+}
+
+.content2 {
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+}
+
+.descricao {
+    width: 150vh;
+    padding: 2vh 3.5vh 4vh 0vh;
+    h2 {
+        margin: 3vh;
+        font-size: 4vh;
+        font-weight: bold;
+        font-family: 'Poppins', sans-serif;
+    }
+    font-size: 2.5vh;
+}
+#titulo2{
+    img{
+        width: 4vh;
+    }
+    display: flex;
+}
