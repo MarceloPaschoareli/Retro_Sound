@@ -26,11 +26,27 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    p{
+    p {
+        width: 100%;
         font-size: 2.5vh;
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis; 
+        max-width: 90%;
     }
-    img{
-        width: 22vh;
+    
+    .imagemP{
+        margin-top: 3vh;
+        width: 25vh;
+        height: 25vh;
+        max-width: 25vh;
+        max-height: 25vh;
+        img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            mix-blend-mode: multiply;
+        }
     }
 }
 
@@ -62,4 +78,8 @@
     img{
         width: 2.3vh;
     }
+}
+
+#clicavel{
+    cursor: pointer;
 }

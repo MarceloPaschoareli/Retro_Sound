@@ -5,6 +5,8 @@
     align-items: center;
     img{
         width: 13vh;
+        mix-blend-mode: multiply;
+
     }
     p{
         font-size: 2vh;

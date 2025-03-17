@@ -22,6 +22,7 @@
     margin: 2vh 6vh 3vh 6vh;
     #imagem {
         width: 45vh;
+        mix-blend-mode: multiply;
     }
 }
 
@@ -43,6 +44,7 @@
         font-weight: 700;
         margin: 0vh;
     }
+    
 }
 
 #parcela {
@@ -81,6 +83,7 @@
 #produtos-outros {
     display: flex;
     justify-content: space-evenly;
+    gap: 1.5vh;
 }
 
 .separador{

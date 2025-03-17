@@ -9,40 +9,45 @@ import procurados from './assets/procurados.svg'
 import produto from './assets/produto.svg'
 import camisa from './assets/camiseta.png'
 import guitarra from './assets/guitarra.png'
-
-const itens = [
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camiseta The Bleatles"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"}
-];
-
-const itens2 = [
-{categoria: "Intrumentos", imagem: guitarra, preco: "1390,00", nome: "Guitarra"},
-  {categoria: "Intrumentos", imagem: guitarra, preco: "1390,00", nome: "Guitarra"},
-  {categoria: "Intrumentos", imagem: guitarra, preco: "170,00", nome: "Guitarra"},
-  {categoria: "Intrumentos", imagem: guitarra, preco: "1450,00", nome: "Guitarra"},
-  {categoria: "Intrumentos", imagem: guitarra, preco: "1230,00", nome: "Guitarra"},
-  {categoria: "Intrumentos", imagem: guitarra, preco: "1206,00", nome: "Guitara"},
-  {categoria: "Intrumentos", imagem: guitarra, preco: "17,00", nome: "Guitarraaa"},
-  {categoria: "Intrumentos", imagem: guitarra, preco: "130,00", nome: "guitarra"}
-];
-
-const itens3 = [{categoria: "Intrumentos", imagem: guitarra, preco: "1230,00", nome: "Guitarra"},
-{categoria: "Intrumentos", imagem: guitarra, preco: "1206,00", nome: "Guitara"},
-{categoria: "Intrumentos", imagem: guitarra, preco: "17,00", nome: "Guitarraaa"},
-{categoria: "Intrumentos", imagem: guitarra, preco: "130,00", nome: "guitarra"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-  {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"}]
+import { myService } from './service/ProductsService';
+import { cookies } from './hooks/cookie';
+import { useNavigate } from 'react-router-dom';
 
 function App() {
   const [filtro, setFiltro] = useState("");
+  const [itens, setItens] = useState([]); 
+  const [response3, setResponse] = useState(null)
+
+  const navigate = useNavigate()
+
+
+  useEffect (() =>{
+    cookies.inicializarSessionStorage()
+    if (!cookies.verificarLogin()){
+      navigate("/login")
+    }
+  }, [])
+
+  useEffect  (() =>{
+        if (!cookies.verificarLogin()){
+            navigate("/login")
+        }
+    }, [])
+
+  useEffect(() => {
+    const fetchItens = async () => {
+        try {
+            const response = await myService.getAll();
+            const response2 = await myService.getId("44")
+            setItens(response); 
+            setResponse(response2.name)
+        } catch (error) {
+            console.error("Erro ao buscar os itens:", error);
+        }
+    };
+
+    fetchItens(); 
+  }, []); 
 
   useEffect(() => {
     const elemento = document.getElementById("prod");
@@ -58,14 +63,14 @@ function App() {
   return (
     <div className="App">
       <NavBar setFiltro={setFiltro} />
-      <div className="corpo">
+        <div className="corpo">
         <div id="prod">
           <FundoCard filtro={filtro} titulo={"OFERTAS E PROMOÇÕES"} i={oferta} itens={itens}/>
-          <FundoCard filtro={filtro} titulo={"MAIS PROCURADOS"} i={procurados} itens={itens2} />
+          <FundoCard filtro={filtro} titulo={"MAIS PROCURADOS"} i={procurados} itens={itens} />
         </div>
 
         <div id="searchs">
-          <FundoCard filtro={filtro} titulo={"PRODUTOS"} i={produto} itens={itens3}/>
+          <FundoCard filtro={filtro} titulo={"PRODUTOS"} i={produto} itens={itens}/>
         </div>
       </div>
 

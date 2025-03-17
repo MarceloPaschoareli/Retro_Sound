@@ -1,38 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './fundo-card-css.css';
 import oferta from '../assets/oferta.svg';
 import camisa from '../assets/camiseta.png';
 import { CardOferta } from "./card-ofertas";
-
-const itens = [
-    {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camiseta The Bleatles"},
-    {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-    {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-    {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-    {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-    {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-    {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"},
-    {categoria: "Vestimentas", imagem: camisa, preco: "120,00", nome: "Camisa The Bleatles"}
-];
+import { myService } from "../service/ProductsService";
 
 function FundoCard({ filtro, titulo, i, itens}) {
     const [filtroCat, setFiltroCat] = useState("");
     const [minValor, setMin] = useState("");
     const [maxValor, setMax] = useState("");
 
+    
+
     const HandlerClick = (value) => {
         setFiltroCat(value);
     };
 
     const filtroPreco = (preco) => {
-        const minParse = parseFloat(minValor) || 0;  
-        const maxParse = parseFloat(maxValor) || Infinity;  
-        const precoNum = parseFloat(preco.replace(",", ".")); 
-        return precoNum >= minParse && precoNum <= maxParse;
+        const minParse = parseFloat(minValor) || 0;
+        const maxParse = parseFloat(maxValor) || Infinity;
+        return preco >= minParse && preco <= maxParse;
     };
+    
 
     return (
         <div className="card">
+            
             <div className="head">
                 <img src={i} alt="Ícone de oferta" />
                 <h4>{titulo}</h4>
@@ -54,7 +47,7 @@ function FundoCard({ filtro, titulo, i, itens}) {
                                 id="radio-2"
                                 type="radio"
                                 name="option"
-                                onClick={() => HandlerClick("Intrumentos")}
+                                onClick={() => HandlerClick("Instrumentos")}
                             />
                             <label htmlFor="radio-2">Instrumentos</label>
                         </div>
@@ -100,18 +93,19 @@ function FundoCard({ filtro, titulo, i, itens}) {
                 </div>
 
                 {itens
-                    .filter((item) => 
-                        item.nome.toLowerCase().includes(filtro.toLowerCase()) &&
-                        item.categoria.toLowerCase().includes(filtroCat.toLowerCase()) &&
-                        filtroPreco(item.preco)
+                    .filter((item) =>
+                        item.name.toLowerCase().includes(filtro.toLowerCase()) &&
+                        // (item.categoria?.name)==filtroCat &&
+                        filtroPreco(item.price)
                     )
                     .map((item, index) => (
                         <CardOferta
                             key={index}
-                            categoria={item.categoria}
-                            imagem={item.imagem}
-                            preco={item.preco}
-                            nome={item.nome}
+                            categoria={item.category?.name }
+                            imagem={item.url_photo || camisa}
+                            preco={item.price}
+                            nome={item.name}
+                            id={item.id}
                         />
                     ))}
             </div>

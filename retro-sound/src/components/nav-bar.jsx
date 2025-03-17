@@ -25,7 +25,7 @@ function NavBar({ setFiltro }) {
     }, []); 
 
     return (
-        <div className="navegar-background">
+        <div className="navegar-background" >
             <div className="imagem" onClick={HandlerClick}>
                 <img src={logo} alt="Logo Retro Sound" />
                 <p>Retro Sound</p>

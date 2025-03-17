@@ -1,0 +1,109 @@
+.conteudo{
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+}
+
+.conteudoC {
+    width: 60vh;
+    padding: 2vh 3.5vh 4vh 3.5vh;
+}
+
+#login{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    h1{
+        font-size: 4vh;
+    }
+}
+
+#email {
+    display: flex;
+    align-items: center;
+    border: 0.3vh solid #000000;
+    border-radius: 1vh;
+    padding: 1vh;
+    width: 45vh;
+    background-color: #fafafa;
+    height: 5.5vh;
+}
+
+#email img {
+    width: 4vh;
+    height: 3vh;
+    padding-left: 2vh;
+    margin-right: 0.5vh;
+}
+
+#email input {
+    border-radius: 3vh;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    flex: 1;
+    font-size: 2vh;
+    color: #333;
+    padding: 1.5vh;
+}
+
+#email input::placeholder {
+    color: #999;
+}
+
+#infos{
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+
+#botao{
+    button{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(22, 64, 77, 1);
+        outline: none;
+        border: 0.3vh black solid;
+        padding: 1.5vh;
+        width: 48vh;
+        border-radius: 1vh;
+        color: white;
+        font-size: 3vh;
+        img{
+            margin-right: 1.5vh;
+            width: 4vh;
+        }
+    }
+}
+
+#outros{
+    font-size: 1.5vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    p{
+        margin: 0.5vh;
+    }
+    a{
+        cursor: pointer;
+        color:rgba(22, 64, 77, 1) ;
+        padding-left: 3.5vh;
+        font-weight: 600;
+    }
+}
+
+#info{
+    display: flex;
+    justify-content: center;
+    p{
+        margin: 0vh;
+        color: red;
+    }
+}
+
+#botao{
+    button:hover{
+    background-color:rgb(18, 46, 54) ;
+    }
+}
