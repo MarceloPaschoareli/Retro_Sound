@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { NavBar } from './components/nav-bar';
 import { FundoCard } from './components/fundo-cards';
-import { AdicionadoPopUp } from './components/pop-up-adicionado';
 import oferta from './assets/oferta.svg';
 import procurados from './assets/procurados.svg'
 import produto from './assets/produto.svg'
-import camisa from './assets/camiseta.png'
-import guitarra from './assets/guitarra.png'
 import { myService } from './service/ProductsService';
 import { cookies } from './hooks/cookie';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +12,13 @@ import { useNavigate } from 'react-router-dom';
 function App() {
   const [filtro, setFiltro] = useState("");
   const [itens, setItens] = useState([]); 
-  const [response3, setResponse] = useState(null)
+
+  const carrinhoSalvo = sessionStorage.getItem("Carrinho");
+  const carrinho = carrinhoSalvo ? JSON.parse(carrinhoSalvo) : ["oi"];
+  const quantidadeItens = carrinho.length || 0;
+
+
+
 
   const navigate = useNavigate()
 
@@ -38,9 +40,7 @@ function App() {
     const fetchItens = async () => {
         try {
             const response = await myService.getAll();
-            const response2 = await myService.getId("44")
             setItens(response); 
-            setResponse(response2.name)
         } catch (error) {
             console.error("Erro ao buscar os itens:", error);
         }
@@ -62,7 +62,7 @@ function App() {
 
   return (
     <div className="App">
-      <NavBar setFiltro={setFiltro} />
+      <NavBar setFiltro={setFiltro} bolinha={quantidadeItens}/>
         <div className="corpo">
         <div id="prod">
           <FundoCard filtro={filtro} titulo={"OFERTAS E PROMOÇÕES"} i={oferta} itens={itens}/>

@@ -67,6 +67,7 @@
         font-size: 2vh;
         outline: none;  
         border: 0vh;
+        cursor: pointer;
     }
 
     .h3:hover {

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import style from "./CadastrarUser.module.css"
 import { NavBarVazia } from "./components/nav-bar-vazia/nav-bar-vazia"
 import emailImg from "./assets/email.svg"
@@ -8,6 +8,7 @@ import cadastrar from "./assets/cadastrar.svg"
 import { UserService } from "./service/UserService"
 import { cookies } from "./hooks/cookie"
 import { useNavigate } from "react-router-dom"
+import { CarrinhoService } from "./service/CarrinhoService"
 
 
 function CadastrarUser (){
@@ -41,6 +42,7 @@ function CadastrarUser (){
             const cadastrar = await UserService.cadastrarUser(nome,email,senha);
             const data = await cadastrar.json()
             const id = data.id
+            CarrinhoService.criarCarrinho(id)
             cookies.fazerLogin(email,id)
             navigate("/")
         } catch(erro){
@@ -48,6 +50,12 @@ function CadastrarUser (){
         }
         
     }
+
+    useEffect  (() =>{
+        if (cookies.verificarLogin()){
+            navigate("/")
+        }
+    }, [])
 
     return(
             <div className={style.tudo}>

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './fundo-card-css.css';
-import oferta from '../assets/oferta.svg';
 import camisa from '../assets/camiseta.png';
 import { CardOferta } from "./card-ofertas";
-import { myService } from "../service/ProductsService";
 
 function FundoCard({ filtro, titulo, i, itens}) {
     const [filtroCat, setFiltroCat] = useState("");

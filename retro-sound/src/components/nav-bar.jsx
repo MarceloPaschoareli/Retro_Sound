@@ -6,7 +6,7 @@ import carrinho from "../assets/carrinho.svg";
 import search from '../assets/search.svg';
 import { useNavigate } from "react-router-dom";
 
-function NavBar({ setFiltro }) {
+function NavBar({ setFiltro, bolinha }) {
 
     const navigate = useNavigate()
 
@@ -18,11 +18,6 @@ function NavBar({ setFiltro }) {
         navigate("/carrinho")
     }
 
-    const [bolinha, setBolinha] = useState("");
-
-    useEffect(() => {  
-        setBolinha(1);
-    }, []); 
 
     return (
         <div className="navegar-background" >

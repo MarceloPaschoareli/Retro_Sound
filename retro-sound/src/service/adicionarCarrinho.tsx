@@ -1,6 +1,0 @@
-
-function AdicionarCarrinho(){
-    
-}
-
-export {AdicionarCarrinho}

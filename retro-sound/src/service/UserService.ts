@@ -1,4 +1,8 @@
 export const UserService = {
+    getUser: async (email:string) =>{
+        const response = await fetch(`http://localhost:3000/user/login/${email}`);
+        return await response.json()
+    },
     fazerLogin: async (email: string, senha: string): Promise<boolean> => {
         try {
             const response = await fetch(`http://localhost:3000/user/login/${email}`);

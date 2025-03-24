@@ -8,6 +8,7 @@ import emailImg from "./assets/email.svg"
 import senhaImg from "./assets/senha.svg"
 import entrar from "./assets/entrar.svg"
 import { UserService } from "./service/UserService"
+import { CarrinhoService } from "./service/CarrinhoService"
 
 function Login(){
     const[email, setEmail] = useState("");
@@ -21,21 +22,22 @@ function Login(){
 
     const HandlerClick = async () =>{
         const logado = await UserService.fazerLogin(email, senha)
+        const user = await UserService.getUser(email)   
         if (logado){
-            cookies.fazerLogin(email,1)
+            cookies.fazerLogin(email,user.id)
             navigate("/")
         } else{
             setInfoLogado("E-mail ou senha inválidos!")
-        }
+        }   
     }
 
     const navigate = useNavigate()
 
-    // useEffect  (() =>{
-    //     if (cookies.verificarLogin()){
-    //         navigate("/")
-    //     }
-    // }, [])
+    useEffect  (() =>{
+        if (cookies.verificarLogin()){
+            navigate("/")
+        }
+    }, [])
     return (
         <div className={style.tudo}>
             <NavBarVazia></NavBarVazia>
