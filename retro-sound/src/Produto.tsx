@@ -145,7 +145,7 @@ function AppProduto(){
                     </div>
             </div>
 
-            <AdicionadoPopUp open={carrinho2}></AdicionadoPopUp>
+            <AdicionadoPopUp open={carrinho2} texto="ADICIONADO AO CARRINHO"></AdicionadoPopUp>
         </div>
 
 

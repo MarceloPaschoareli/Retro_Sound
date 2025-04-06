@@ -1,0 +1,55 @@
+.tudo{
+    border-radius: 1.5vh;
+    border: 0.3vh solid black;
+    height: 23vh;
+    width: 80vh;
+    display: flex;
+    align-items: center;
+    gap: 6vh;
+    font-size: 2.2vh;
+    padding: 1vh;
+}
+
+.scar{
+    display: flex;
+    justify-content: center;
+}
+
+.imagem{
+    padding-left: 2vh;
+    img{
+        mix-blend-mode: multiply;
+        width: 15vh;
+    }
+}
+
+.info{
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    .cod{
+        font-size: 1.5vh;
+    }
+}
+
+
+.preco{
+    font-size: 2.5vh;
+    padding-top: 18vh;
+    
+}
+
+#choose{
+    p{
+        cursor: pointer;
+    }
+}
+
+#quant{
+    display: flex;
+    gap: 2vh;
+    img{
+        width: 2vh;
+        cursor: pointer;
+    }
+}

@@ -1,9 +1,16 @@
 
 export const CarrinhoService = {
-    criarCarrinho: async (id:number) => {
-        const response = await fetch("http://localhost:3000/cart/"+id)
-        return await response.json()
-    },
+    criarCarrinho: async (userId: number) => {
+        const response = await fetch("http://localhost:3000/cart/"+userId, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+
+        return await response.json();
+    }
+    ,
     getCarrinho: async (id: number) => {
         try {
             const response = await fetch(`http://localhost:3000/cart/${id}`);
@@ -73,6 +80,26 @@ export const CarrinhoService = {
             console.log(error)
             return false
         }
-    } 
+    },
+    checkoutCarrinho: async (cart: number, userID: number) => {
+        try {
+            const response = await fetch(`http://localhost:3000/cart/${cart}/checkout`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+    
+            const novoCarrinho = await CarrinhoService.criarCarrinho(userID);
+    
+            sessionStorage.setItem("Carrinho", JSON.stringify(novoCarrinho));
+    
+            return response;
+        } catch (error) {
+            console.error("Erro no checkout:", error);
+            return error;
+        }
+    }
+    
     
 }        

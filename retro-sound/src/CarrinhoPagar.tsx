@@ -1,11 +1,13 @@
 import styles from "./Carrinho.module.css"
 import { NavBar } from "./components/nav-bar"
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Caminho from "./assets/carrinho/Caminho2.svg"
 import Caminho3 from "./assets/carrinho/caminho3.svg"
 import money from "./assets/money.svg"
 import pix from "./assets/pix.svg"
+import {Cartao} from "./components/cartao/cartao"
+import jsPDF from "jspdf";
 
 interface ProdutoCarrinho {
     quantity:number;
@@ -28,33 +30,95 @@ function CarrinhoPagar() {
     const [option, setOption] = useState("");   
     const [caminho, setCaminho] = useState(Caminho);
 
-    const navigate = useNavigate();
- 
     
+
+    const { number } = useParams(); 
+
+    useEffect(() => {
+    if (number) {
+        setValor(Number(number));
+    }
+    }, [number]);
+
 
     const Voltar = () => {
         window.history.back()
     };
 
     const pagarCarrinho = () => {
-        if(option!==""){
-            if (option==="PIX"){
-                const v = document.getElementById("visivel");
-                if (v){
-                    v.style.display="flex";
+        if (option !== "") {
+            console.log(`Opção selecionada: ${option}`); // Debug no console
+    
+            // Oculta a seleção de pagamento
+            const selecaoPagamento = document.getElementById("sla");
+            if (selecaoPagamento) {
+                selecaoPagamento.style.display = "none";
+            }
+    
+            // Exibe a tela correspondente à opção escolhida
+            const pixElement = document.getElementById("visivel");
+            const cartaoElement = document.getElementById("invisivel");
+    
+            if (option === "PIX") {
+                if (pixElement) {
+                    pixElement.style.display = "flex";
+                    pixElement.style.visibility = "visible";
+                    pixElement.style.opacity = "1";
+                    console.log("Exibindo PIX");
                 }
+                if (cartaoElement) {
+                    cartaoElement.style.display = "none";
+                }
+            } else if (option === "CARTAO") {
+                if (cartaoElement) {
+                    cartaoElement.style.display = "block"; // Alternativa: "flex" se necessário
+                    cartaoElement.style.visibility = "visible";
+                    cartaoElement.style.opacity = "1";
+                    console.log("Exibindo Cartão");
+
+                    console.log(cartaoElement); // Verifica se o elemento foi encontrado
+console.log(getComputedStyle(cartaoElement).display); // Vê qual display está sendo aplicado
+
+                }
+                if (pixElement) {
+                    pixElement.style.display = "none";
+                }
+            }
+    
+            // Atualiza o caminho da interface
+            setCaminho(Caminho3);
             
-            }
-            const s = document.getElementById("sla");
-            if(s){
-                s.style.display="none";
-            }
-            setCaminho(Caminho3)
+        } else {
+            alert("Por favor, selecione uma forma de pagamento.");
         }
     };
+    
+
+    
+
+    
 
     const opcaoPag = (opcao:string) =>{
         setOption(opcao)
+    }
+
+
+    const gerarPDF = () => {
+        const doc = new jsPDF();
+        const valorFinal = valor + 10;
+
+        doc.text("Recibo de Compra", 10, 10);
+        doc.text(`Valor dos produtos: R$ ${valor.toFixed(2)}`, 10, 20);
+        doc.text("Frete: R$ 10.00", 10, 30);
+        doc.text(`Valor Final: R$ ${valorFinal.toFixed(2)}`, 10, 40);
+
+        doc.save("recibo_compra.pdf");
+    }
+
+    const Compra = () =>{
+        window.location.reload()
+
+        gerarPDF()
     }
     
 
@@ -68,8 +132,18 @@ function CarrinhoPagar() {
                         </div>
 
                         <div id="visivel" className={styles.visivel}>
-                    <img src={pix} />
+                            <img src={pix} />
+                            <div id={styles.po}>
+                                <div id={styles.actions}>
+                                    <button id={styles.pagar} onClick={Compra}>FINALIZAR COMPRA</button>
+                                </div>
+                    </div>
+
                 </div>
+
+                <div id="invisivel" className={styles.invisivel}>
+                        <Cartao valor={valor}></Cartao>
+                    </div>
 
                         <div id="sla">
                         <div className={styles.carrinhoC}>

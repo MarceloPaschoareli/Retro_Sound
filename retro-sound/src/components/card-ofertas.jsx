@@ -24,9 +24,7 @@ function CardOferta({ categoria, imagem, preco, nome, id }) {
             console.error("Erro: ID do carrinho não encontrado!", carrinhoData);
             return;
         }
-    
-        console.log("Adicionando ao carrinho ID:", carrinhoData.id);
-    
+            
         await CarrinhoService.adicionarItem(carrinhoData.id, id);
     
         setCarrinho(true);

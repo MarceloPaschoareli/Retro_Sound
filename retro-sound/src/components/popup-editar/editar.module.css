@@ -1,0 +1,152 @@
+.content {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); 
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+    display: flex;
+    display: none;
+    h1{
+        margin: 3vh 0vh 4vh 0vh;
+    }
+}
+
+.content button {
+    background-color: rgba(22, 64, 77, 1);
+    padding: 1vh;
+    border-radius: 0.5vh;
+    width: 48vh;
+    height: 6vh;
+    outline: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.7vh;
+}
+
+.quadro {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 3vh;
+    background-color: rgb(255, 249, 242);
+    width: 70vh;
+    height: 75vh;
+    border-radius: 1.5vh;
+}
+
+#email {
+    display: flex;
+    align-items: center;
+    border: 0.3vh solid #000000;
+    border-radius: 1vh;
+    padding: 1vh;
+    width: 45vh;
+    background-color: rgb(255, 249, 242);
+    height: 5vh;
+}
+
+#email img {
+    width: 4vh;
+    height: 3vh;
+    padding-left: 2vh;
+    margin-right: 0.5vh;
+}
+
+/* Inputs normais */
+#email input {
+    border-radius: 3vh;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    flex: 1;
+    font-size: 2vh;
+    color: #333;
+    padding: 1.5vh;
+}
+
+#email input::placeholder {
+    color: #999;
+}
+
+/* Estilo específico para o select */
+.select-container {
+    display: flex;
+    align-items: center;
+    border: 0.3vh solid #000000;
+    border-radius: 1vh;
+    padding: 1vh;
+    width: 45vh;
+    background-color: rgb(255, 249, 242);
+    height: 5vh;
+    position: relative;
+}
+
+/* Remove a aparência padrão do select */
+.select-container select {
+    border-radius: 3vh;
+    outline: none;
+    background-color: transparent;
+    flex: 1;
+    font-size: 2vh;
+    color: #333;
+    padding: 1.5vh;
+    appearance: none; /* Remove a seta padrão */
+    /* -webkit-appearance: none; 
+    -moz-appearance: none; */
+    border-color: transparent;
+    cursor: pointer;
+}
+
+/* Adicionando a setinha apenas no select */
+.select-container::after {
+    content: "▼"; 
+    font-size: 1.5vh;
+    color: #333;
+    position: absolute;
+    right: 1.5vh;
+    pointer-events: none;
+}
+
+#infos {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+
+.selectContainer {
+    border: 0.3vh solid #000000; 
+
+    border-radius: 1vh;
+    padding: 1vh;
+    width: 45vh;
+    background-color: rgb(255, 249, 242);
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    position: relative; /* Para posicionar a setinha */
+}
+
+/* Estilizando o select sem remover a setinha */
+.selectContainer select {
+    width: 100%;
+    border: none; /* Remove a borda do select */
+    outline: none;
+    background: transparent;
+    font-size: 2vh;
+    color: #999;
+    cursor: pointer;
+    padding: 0 3vh 0 1vh; /* Espaço extra para a seta */
+}
+
+/* Garantindo que as opções fiquem visíveis corretamente */
+.selectContainer select option {
+    background-color: white;
+    color: #000;
+}
+
+

@@ -107,7 +107,7 @@ function Carrinho() {
     };
 
     const pagarCarrinho = () => {
-        navigate("/"+Math.random()*1000)
+        navigate("/"+Math.random()*1000+"/"+valor)
     };
     
 

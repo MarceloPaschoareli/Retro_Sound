@@ -4,9 +4,10 @@ import certo from "../assets/verified.gif";
 
 interface Tipo {
     open: boolean;
+    texto:string;
 }
 
-function AdicionadoPopUp({ open }: Tipo) {
+function AdicionadoPopUp({ open, texto }: Tipo) {
 
     useEffect(() => {
         const tela = document.getElementById("pop");
@@ -20,7 +21,7 @@ function AdicionadoPopUp({ open }: Tipo) {
         <div id="pop">
             <div className="mensa">
                 <img src={certo} alt="Ícone de verificado" />
-                <p>ADICIONADO AO CARRINHO</p>
+                <p>{texto}</p>
             </div>
         </div>
     );

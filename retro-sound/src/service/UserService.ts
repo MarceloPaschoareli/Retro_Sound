@@ -57,5 +57,27 @@ export const UserService = {
             console.error("Erro ao cadastrar usuário:", error);
             throw error; 
         }
+    },
+    atualizarSenha: async (idUser:number,senha:string) =>{
+        try{
+            const response = await fetch("http://localhost:3000/user/"+idUser, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    password:senha
+                })
+            });
+
+            if(!response){
+                return false
+            } 
+
+            return true
+        } catch(error){
+            console.log(error)
+            return false
+        }
     }
 };
