@@ -1,13 +1,15 @@
 import styles from "./Carrinho.module.css"
 import { NavBar } from "./components/nav-bar"
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import Caminho from "./assets/carrinho/Caminho2.svg"
 import Caminho3 from "./assets/carrinho/caminho3.svg"
 import money from "./assets/money.svg"
 import pix from "./assets/pix.svg"
 import {Cartao} from "./components/cartao/cartao"
-import jsPDF from "jspdf";
+import { CarrinhoService } from "./service/CarrinhoService";
+import jsPDF from "jspdf"
+import { useNavigate, useParams } from "react-router-dom"
+import { cookies } from "./hooks/cookie";
 
 interface ProdutoCarrinho {
     quantity:number;
@@ -29,8 +31,13 @@ function CarrinhoPagar() {
     const [carrinho, setCarrinho] = useState<ProdutoCarrinho[]>([]);
     const [option, setOption] = useState("");   
     const [caminho, setCaminho] = useState(Caminho);
+    const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+    const [carrinho2, setCarrinho2] = useState(false);
 
-    
+
+
+    const navigate = useNavigate()
+
 
     const { number } = useParams(); 
 
@@ -47,15 +54,13 @@ function CarrinhoPagar() {
 
     const pagarCarrinho = () => {
         if (option !== "") {
-            console.log(`Opção selecionada: ${option}`); // Debug no console
+            console.log(`Opção selecionada: ${option}`); 
     
-            // Oculta a seleção de pagamento
             const selecaoPagamento = document.getElementById("sla");
             if (selecaoPagamento) {
                 selecaoPagamento.style.display = "none";
             }
     
-            // Exibe a tela correspondente à opção escolhida
             const pixElement = document.getElementById("visivel");
             const cartaoElement = document.getElementById("invisivel");
     
@@ -64,20 +69,15 @@ function CarrinhoPagar() {
                     pixElement.style.display = "flex";
                     pixElement.style.visibility = "visible";
                     pixElement.style.opacity = "1";
-                    console.log("Exibindo PIX");
                 }
                 if (cartaoElement) {
                     cartaoElement.style.display = "none";
                 }
             } else if (option === "CARTAO") {
                 if (cartaoElement) {
-                    cartaoElement.style.display = "block"; // Alternativa: "flex" se necessário
+                    cartaoElement.style.display = "block";
                     cartaoElement.style.visibility = "visible";
-                    cartaoElement.style.opacity = "1";
-                    console.log("Exibindo Cartão");
-
-                    console.log(cartaoElement); // Verifica se o elemento foi encontrado
-console.log(getComputedStyle(cartaoElement).display); // Vê qual display está sendo aplicado
+                    cartaoElement.style.opacity = "1";                 
 
                 }
                 if (pixElement) {
@@ -85,7 +85,6 @@ console.log(getComputedStyle(cartaoElement).display); // Vê qual display está 
                 }
             }
     
-            // Atualiza o caminho da interface
             setCaminho(Caminho3);
             
         } else {
@@ -103,6 +102,27 @@ console.log(getComputedStyle(cartaoElement).display); // Vê qual display está 
     }
 
 
+    const confirmar = async () => {
+        const carrinhoData1 = sessionStorage.getItem("Carrinho");
+        const user = sessionStorage.getItem("idUsuario")
+
+        if (!carrinhoData1) {
+            console.error("Erro: Carrinho não encontrado no sessionStorage!");
+            return;
+        }
+
+        const carrinhoData = JSON.parse(carrinhoData1);
+
+        const response = await CarrinhoService.checkoutCarrinho(carrinhoData.id, Number(user))
+
+        setCarrinho2(true);
+        await sleep(2000);
+        setCarrinho2(false);
+        navigate("/")
+
+        gerarPDF()
+    }
+
     const gerarPDF = () => {
         const doc = new jsPDF();
         const valorFinal = valor + 10;
@@ -114,13 +134,13 @@ console.log(getComputedStyle(cartaoElement).display); // Vê qual display está 
 
         doc.save("recibo_compra.pdf");
     }
-
-    const Compra = () =>{
-        window.location.reload()
-
-        gerarPDF()
-    }
     
+    useEffect (() =>{
+        cookies.inicializarSessionStorage()
+        if (!cookies.verificarLogin()){
+          navigate("/login")
+        }
+      }, [])
 
     return (
         <div className={styles.tudo}>
@@ -135,7 +155,7 @@ console.log(getComputedStyle(cartaoElement).display); // Vê qual display está 
                             <img src={pix} />
                             <div id={styles.po}>
                                 <div id={styles.actions}>
-                                    <button id={styles.pagar} onClick={Compra}>FINALIZAR COMPRA</button>
+                                    <button id={styles.pagar} onClick={confirmar}>FINALIZAR COMPRA</button>
                                 </div>
                     </div>
 

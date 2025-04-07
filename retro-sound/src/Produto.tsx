@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { NavBar } from "./components/nav-bar";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import './produto-css.css'
 import imagem from './assets/camiseta.svg'
 import { OutrosCard } from "./components/card-outros";
@@ -9,6 +9,7 @@ import { myService } from "./service/ProductsService";
 import { Produto } from "./components/produto";
 import { CarrinhoService } from "./service/CarrinhoService";
 import { AdicionadoPopUp } from "./components/pop-up-adicionado";
+import { cookies } from "./hooks/cookie";
 
 type Produto = {
     name: string;
@@ -26,6 +27,8 @@ function AppProduto(){
     const carrinhoSalvo = sessionStorage.getItem("Carrinho");
     const carrinho = carrinhoSalvo ? JSON.parse(carrinhoSalvo) : [];
     const quantidadeItens = carrinho.length || 0;
+
+    const navigate = useNavigate()
 
 
     const {nome, id} = useParams()
@@ -63,6 +66,12 @@ function AppProduto(){
     setCarrinho2(false);
 };
 
+useEffect (() =>{
+    cookies.inicializarSessionStorage()
+    if (!cookies.verificarLogin()){
+      navigate("/login")
+    }
+  }, [])
 
     useEffect(() => {
         const fetchProduto = async () => {

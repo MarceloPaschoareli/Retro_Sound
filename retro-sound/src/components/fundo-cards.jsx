@@ -3,27 +3,33 @@ import './fundo-card-css.css';
 import camisa from '../assets/camiseta.png';
 import { CardOferta } from "./card-ofertas";
 
-function FundoCard({ filtro, titulo, i, itens}) {
+function FundoCard({ filtro, titulo, i, itens }) {
     const [filtroCat, setFiltroCat] = useState("");
     const [minValor, setMin] = useState("");
     const [maxValor, setMax] = useState("");
+    const [categorias, setCategorias] = useState([]);
 
-    
-
-    const HandlerClick = (value) => {
-        setFiltroCat(value);
+    const getCategorias = async () => {
+        try {
+            const response = await fetch(`http://localhost:3000/categories`);
+            const data = await response.json();
+            setCategorias(data);
+        } catch (error) {
+            console.error("Erro ao buscar categorias:", error);
+        }
     };
+    useEffect(() => {
+        getCategorias();
+    }, []);
 
     const filtroPreco = (preco) => {
         const minParse = parseFloat(minValor) || 0;
         const maxParse = parseFloat(maxValor) || Infinity;
         return preco >= minParse && preco <= maxParse;
     };
-    
 
     return (
         <div className="card">
-            
             <div className="head">
                 <img src={i} alt="Ícone de oferta" />
                 <h4>{titulo}</h4>
@@ -31,43 +37,19 @@ function FundoCard({ filtro, titulo, i, itens}) {
             <div className="orga">
                 <div className="filtros">
                     <form className="my-form">
-                        <div>
-                            <input
-                                id="radio-1"
-                                type="radio"
-                                name="option"
-                                onClick={() => HandlerClick("Vestimentas")}
-                            />
-                            <label htmlFor="radio-1">Vestimentas</label>
-                        </div>
-                        <div>
-                            <input
-                                id="radio-2"
-                                type="radio"
-                                name="option"
-                                onClick={() => HandlerClick("Instrumentos")}
-                            />
-                            <label htmlFor="radio-2">Instrumentos</label>
-                        </div>
-                        <div>
-                            <input
-                                id="radio-3"
-                                type="radio"
-                                name="option"
-                                onClick={() => HandlerClick("Artigos")}
-                            />
-                            <label htmlFor="radio-3">Artigos</label>
-                        </div>
-                        <div>
-                            <input
-                                id="radio-4"
-                                type="radio"
-                                name="option"
-                                onClick={() => HandlerClick("Quadros")}
-                            />
-                            <label htmlFor="radio-4">Quadros</label>
-                        </div>
+                        {categorias.map((categoria) => (
+                            <div key={categoria.id}>
+                                <input
+                                    id={`radio-${categoria.id}`}
+                                    type="radio"
+                                    name="option"
+                                    onClick={() => setFiltroCat(categoria.name)}
+                                />
+                                <label htmlFor={`radio-${categoria.id}`}>{categoria.name}</label>
+                            </div>
+                        ))}
                     </form>
+
                     <div className="preco">
                         <div id="preco">
                             <h3>PREÇO</h3>
@@ -75,14 +57,14 @@ function FundoCard({ filtro, titulo, i, itens}) {
                         <div id="quant">
                             <input
                                 type="number"
-                                id="max"
+                                id="min"
                                 placeholder="Mínimo"
                                 onChange={(e) => setMin(e.target.value)}
                             />
                             <p id="linha">-</p>
                             <input
                                 type="number"
-                                id="min"
+                                id="max"
                                 placeholder="Máximo"
                                 onChange={(e) => setMax(e.target.value)}
                             />
@@ -93,13 +75,13 @@ function FundoCard({ filtro, titulo, i, itens}) {
                 {itens
                     .filter((item) =>
                         item.name.toLowerCase().includes(filtro.toLowerCase()) &&
-                        // (item.categoria?.name)==filtroCat &&
+                        (!filtroCat || item.category?.name === filtroCat) &&
                         filtroPreco(item.price)
                     )
                     .map((item, index) => (
                         <CardOferta
                             key={index}
-                            categoria={item.category?.name }
+                            categoria={item.category?.name}
                             imagem={item.url_photo || camisa}
                             preco={item.price}
                             nome={item.name}

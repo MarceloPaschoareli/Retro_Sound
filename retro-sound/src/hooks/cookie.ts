@@ -15,5 +15,11 @@ export const cookies = {
 
     verificarLogin() {
         return sessionStorage.getItem("idUsuario") !== "0" && sessionStorage.getItem("idUsuario") !== null;
+    },
+
+    desfazerLogin(){
+        sessionStorage.setItem("emailUsuario", "");
+        sessionStorage.setItem("idUsuario", "0");
+        sessionStorage.setItem("Carrinho","")
     }
 };

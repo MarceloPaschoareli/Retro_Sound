@@ -1,10 +1,9 @@
-import style from "./Admin.module.css";
+import style from "./Usuarios.module.css";
 import { NavBarVazia } from "../../components/nav-bar-vazia/nav-bar-vazia";
 import { ProdutoAdmin } from "../../components/produto-adm/produtoAdmin";
 import { useEffect, useState } from "react";
 import { myService } from "../../service/ProductsService";
 import { AdicionarProduto } from "../../components/adicionar-produto/adicionar";
-import { useNavigate } from "react-router-dom";
 
 interface ProdutoType {
     id: number;
@@ -18,11 +17,9 @@ interface ProdutoType {
     stock:number;
 }
 
-function Admin() {
+function Usuario() {
     const [itens, setItens] = useState<ProdutoType[]>([]);
     const [open, setOpen] = useState(false);
-
-    const navigate = useNavigate()
 
     useEffect(() => {
         const fetchItens = async () => {
@@ -37,18 +34,12 @@ function Admin() {
         fetchItens();
     }, []);
 
-    const usuarios = () =>{
-        navigate("/admin/usuarios")
-    }
-
     return (
         <div>
             <NavBarVazia />
             <div className={style.content}>
                 <h1>Bem-vindo Administrador!</h1>
-                <button onClick={usuarios}>CLIENTES</button>
 
-                <button onClick={() => setOpen(true)}>CADASTRAR PRODUTOS</button>
                 <div className={style.products}>
                     {itens.map((item) => (
                         <ProdutoAdmin
@@ -69,4 +60,4 @@ function Admin() {
     );
 }
 
-export default Admin;
+export default Usuario;

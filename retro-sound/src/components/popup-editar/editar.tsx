@@ -10,6 +10,8 @@ interface Tipo {
     descricao1: string;
     categoria1: string;
     imagem1: any;
+    stock1: number;
+    id1:number;
 }
 
 interface Categoria {
@@ -27,12 +29,13 @@ const getCategorias = async (): Promise<Categoria[]> => {
     }
 };
 
-function EditarProduto({ open, onClose, nome1, preco1, descricao1, categoria1, imagem1 }: Tipo) {
+function EditarProduto({ open, onClose, nome1, preco1, descricao1, categoria1, imagem1, stock1, id1 }: Tipo) {
     const [nome, setNome] = useState("");
     const [preco, setPreco] = useState(0.0);
     const [descricao, setDesc] = useState("");
     const [categoria, setCategoria] = useState<number | null>(null);
     const [imagem, setImagem] = useState("");
+    const [stock, setStock] = useState(0);
     const [categorias, setCategorias] = useState<Categoria[]>([]);
 
     useEffect(() => {
@@ -46,6 +49,7 @@ function EditarProduto({ open, onClose, nome1, preco1, descricao1, categoria1, i
             setPreco(preco1);
             setDesc(descricao1);
             setImagem(imagem1);
+            setStock(stock1);
         }
     }, [open]);
 
@@ -64,7 +68,7 @@ function EditarProduto({ open, onClose, nome1, preco1, descricao1, categoria1, i
             alert("Selecione uma categoria!");
             return;
         }
-        await myService.cadastrarProduto(nome, descricao, preco, imagem, categoria);
+        await myService.atualizarProduto(nome, descricao, preco, imagem, categoria, stock, id1);
         window.location.reload();
     };
 
@@ -94,6 +98,9 @@ function EditarProduto({ open, onClose, nome1, preco1, descricao1, categoria1, i
                     </div>
                     <div id={style.email}>
                         <input type="text" placeholder="URL IMAGEM" onChange={(e) => setImagem(e.target.value)} value={imagem} />
+                    </div>
+                    <div id={style.email}>
+                        <input type="number" min={0} placeholder="ESTOQUE" onChange={(e) => setStock(Number(e.target.value))} value={stock} />
                     </div>
                     <button onClick={cadastrar}>EDITAR PRODUTO</button>
                 </div>

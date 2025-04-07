@@ -11,6 +11,7 @@ import User from './CadastrarUser'
 import CarrinhoPagar from './CarrinhoPagar'
 import Esqueci from "./EsqueciSenha"
 import Admin from "./pages/Admin/Admin"
+import Usuarios from "./pages/usuarios/Usuarios"
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -27,6 +28,8 @@ root.render(
       <Route path="/:id/:number" element={<CarrinhoPagar></CarrinhoPagar>}/>
       <Route path="/Esqueci" element={<Esqueci></Esqueci>}/>
       <Route path='/admin' element={<Admin></Admin>}></Route>
+      <Route path='/admin/usuarios' element={<Usuarios></Usuarios>}></Route>
+
 
       
     </Routes>

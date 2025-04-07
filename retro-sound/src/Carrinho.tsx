@@ -7,6 +7,7 @@ import vazio from "./assets/vazio.svg"
 import { useNavigate } from "react-router-dom";
 import Caminho from "./assets/carrinho/Caminho.svg"
 import { CarrinhoService } from "./service/CarrinhoService";
+import { cookies } from "./hooks/cookie";
 
 interface ProdutoCarrinho {
     quantity:number;
@@ -35,6 +36,14 @@ function Carrinho() {
             setCarrinho(JSON.parse(carrinhoSalvo));
         }
     }, []);
+
+
+    useEffect (() =>{
+        cookies.inicializarSessionStorage()
+        if (!cookies.verificarLogin()){
+          navigate("/login")
+        }
+      }, [])
 
     useEffect(() => {
         const visualizarProdutos = async () => {
