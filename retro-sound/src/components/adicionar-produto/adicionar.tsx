@@ -16,7 +16,7 @@ interface Categoria {
 // Função para buscar categorias
 const getCategorias = async (): Promise<Categoria[]> => {
     try {
-        const response = await fetch(`http://localhost:3000/categories`);
+        const response = await fetch(`https://backendrs.onrender.com/categories`);
         return await response.json();
     } catch (error) {
         console.error("Erro ao buscar categorias:", error);
