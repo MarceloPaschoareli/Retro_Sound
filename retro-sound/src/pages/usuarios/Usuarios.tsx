@@ -4,58 +4,55 @@ import { ProdutoAdmin } from "../../components/produto-adm/produtoAdmin";
 import { useEffect, useState } from "react";
 import { myService } from "../../service/ProductsService";
 import { AdicionarProduto } from "../../components/adicionar-produto/adicionar";
+import { UsuarioCard } from "../../components/usuarios/usuario";
+import { UserService } from "../../service/UserService";
 
-interface ProdutoType {
+interface UserType {
     id: number;
-    category: {
-        name: string;
-    };
-    url_photo: string;
-    price: number;
     name: string;
-    description:string;
-    stock:number;
+    email:string;
 }
 
 function Usuario() {
-    const [itens, setItens] = useState<ProdutoType[]>([]);
+    const [itens, setItens] = useState<UserType[]>([]);
     const [open, setOpen] = useState(false);
 
     useEffect(() => {
         const fetchItens = async () => {
             try {
-                const response = await myService.getAll();
+                const response = await UserService.getUsers();
                 setItens(response);
             } catch (error) {
-                console.error("Erro ao buscar os itens:", error);
+                console.error("Erro ao buscar os usuários:", error);
             }
         };
 
         fetchItens();
     }, []);
 
+    const  Voltar = () =>{
+        window.history.back()
+    }
+
     return (
         <div>
             <NavBarVazia />
             <div className={style.content}>
                 <h1>Bem-vindo Administrador!</h1>
-
+                <button onClick={Voltar}>Voltar</button>
                 <div className={style.products}>
                     {itens.map((item) => (
-                        <ProdutoAdmin
+                        <UsuarioCard
                             key={item.id}
                             id={item.id}
-                            categoria={item.category.name}
-                            imagem={item.url_photo}
-                            preco={item.price}
                             nome={item.name}
-                            descricao={item.description}
-                            stock={item.stock}
+                            email={item.email}
+                            admin={item.email==="marcelo.paschoareli@gmail.com"||item.email==="manuelli.flaviano@example.com"}
                         />
+                        
                     ))}
                 </div>
             </div>
-            {open && <AdicionarProduto open={open} onClose={() => setOpen(false)} />}
         </div>
     );
 }

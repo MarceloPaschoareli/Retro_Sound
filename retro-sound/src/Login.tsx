@@ -28,13 +28,13 @@ function Login(){
         const logado = await UserService.fazerLogin(email, senha)
         const user = await UserService.getUser(email)   
 
-        if(email==="marcelo.paschoareli@gmail.com" || email === "manuelli.flaviano@example.com"){
-            navigate("/admin")
-            return
-        }
 
         if (logado){
             cookies.fazerLogin(email,user.id)
+            if(email==="marcelo.paschoareli@gmail.com" || email === "manuelli.flaviano@example.com"){
+                navigate("/admin")
+                return
+            }
             navigate("/")
         } else{
             setInfoLogado("E-mail ou senha inválidos!")

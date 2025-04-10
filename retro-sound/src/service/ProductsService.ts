@@ -1,7 +1,7 @@
 export const myService = {
     getAll: async () => {
         try {
-            const response = await fetch("http://localhost:3000/products");
+            const response = await fetch("https://backendrs.onrender.com/products");
             if (!response.ok) throw new Error("Erro ao buscar produtos");
             return await response.json();
         } catch (error) {
@@ -11,7 +11,7 @@ export const myService = {
     },
     getId: async (id: string) => {
         try {
-            const response = await fetch(`http://localhost:3000/products/${id}`);
+            const response = await fetch(`https://backendrs.onrender.com/products/${id}`);
             if (!response.ok) throw new Error("Erro ao buscar produto");
             return await response.json();
         } catch (error) {
@@ -21,21 +21,20 @@ export const myService = {
     },
     cadastrarProduto: async (nome: string, description: string, price: number, url_photo: string, categoria: number) => {
         try {
-            const response = await fetch(`http://localhost:3000/products`,
-                {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        name: nome,
-                        description: description,
-                        price: price,
-                        url_photo: url_photo,
-                        stock: 10,
-                        categoryId: categoria
-                    })
-                });
+            const response = await fetch(`https://backendrs.onrender.com/products`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: nome,
+                    description: description,
+                    price: price,
+                    url_photo: url_photo,
+                    stock: 10,
+                    categoryId: categoria
+                })
+            });
 
             return response;
         } catch (error) {
@@ -44,7 +43,7 @@ export const myService = {
     },
     getCategorias: async () => {
         try {
-            const response = await fetch(`http://localhost:3000/categories`);
+            const response = await fetch(`https://backendrs.onrender.com/categories`);
             return await response.json();
         } catch (error) {
             return error;
@@ -52,7 +51,7 @@ export const myService = {
     },
     excluirProduto: async (id: number) => {
         try {
-            const response = await fetch(`http://localhost:3000/products/${id}`, {
+            const response = await fetch(`https://backendrs.onrender.com/products/${id}`, {
                 method: "DELETE"
             });
 
@@ -72,10 +71,10 @@ export const myService = {
         url_photo: string,
         categoria: number,
         stock: number,
-        id:number
+        id: number
     ) => {
         try {
-            const response = await fetch(`http://localhost:3000/products/`+id, {
+            const response = await fetch(`https://backendrs.onrender.com/products/${id}`, {
                 method: "PUT",
                 headers: {
                     'Content-Type': 'application/json'

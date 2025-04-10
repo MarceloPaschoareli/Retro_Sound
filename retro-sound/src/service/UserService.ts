@@ -1,16 +1,17 @@
 export const UserService = {
-    getUser: async (email:string) =>{
-        const response = await fetch(`http://localhost:3000/user/login/${email}`);
-        return await response.json()
+    getUser: async (email: string) => {
+        const response = await fetch(`https://backendrs.onrender.com/user/login/${email}`);
+        return await response.json();
     },
-    getUsers: async () =>
-    {
-        const response = await fetch("http://localhost:3000/user")
-        return await response.json()
+
+    getUsers: async () => {
+        const response = await fetch("https://backendrs.onrender.com/user");
+        return await response.json();
     },
+
     fazerLogin: async (email: string, senha: string): Promise<boolean> => {
         try {
-            const response = await fetch(`http://localhost:3000/user/login/${email}`);
+            const response = await fetch(`https://backendrs.onrender.com/user/login/${email}`);
 
             if (!response.ok) {
                 return false;
@@ -31,7 +32,7 @@ export const UserService = {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/user/login/${email}`);
+            const response = await fetch(`https://backendrs.onrender.com/user/login/${email}`);
 
             if (!response.ok) {
                 return "";
@@ -45,7 +46,7 @@ export const UserService = {
 
     cadastrarUser: async (nome: string, email: string, senha: string): Promise<Response> => {
         try {
-            const response = await fetch("http://localhost:3000/user", {
+            const response = await fetch("https://backendrs.onrender.com/user", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -57,32 +58,33 @@ export const UserService = {
                 })
             });
 
-            return response; 
+            return response;
         } catch (error) {
             console.error("Erro ao cadastrar usuário:", error);
-            throw error; 
+            throw error;
         }
     },
-    atualizarSenha: async (idUser:number,senha:string) =>{
-        try{
-            const response = await fetch("http://localhost:3000/user/"+idUser, {
+
+    atualizarSenha: async (idUser: number, senha: string) => {
+        try {
+            const response = await fetch("https://backendrs.onrender.com/user/" + idUser, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    password:senha
+                    password: senha
                 })
             });
 
-            if(!response){
-                return false
-            } 
+            if (!response) {
+                return false;
+            }
 
-            return true
-        } catch(error){
-            console.log(error)
-            return false
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
         }
     }
 };

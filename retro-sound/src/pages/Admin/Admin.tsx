@@ -46,7 +46,7 @@ function Admin() {
             <NavBarVazia />
             <div className={style.content}>
                 <h1>Bem-vindo Administrador!</h1>
-                <button onClick={usuarios}>CLIENTES</button>
+                <button onClick={usuarios}>USUÁRIOS</button>
 
                 <button onClick={() => setOpen(true)}>CADASTRAR PRODUTOS</button>
                 <div className={style.products}>

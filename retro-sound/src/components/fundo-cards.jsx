@@ -11,7 +11,7 @@ function FundoCard({ filtro, titulo, i, itens }) {
 
     const getCategorias = async () => {
         try {
-            const response = await fetch(`http://localhost:3000/categories`);
+            const response = await fetch(`https://backendrs.onrender.com/categories`);
             const data = await response.json();
             setCategorias(data);
         } catch (error) {

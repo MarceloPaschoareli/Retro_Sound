@@ -1,7 +1,6 @@
-
 export const CarrinhoService = {
     criarCarrinho: async (userId: number) => {
-        const response = await fetch("http://localhost:3000/cart/"+userId, {
+        const response = await fetch("https://backendrs.onrender.com/cart/" + userId, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -9,11 +8,10 @@ export const CarrinhoService = {
         });
 
         return await response.json();
-    }
-    ,
+    },
     getCarrinho: async (id: number) => {
         try {
-            const response = await fetch(`http://localhost:3000/cart/${id}`);
+            const response = await fetch(`https://backendrs.onrender.com/cart/${id}`);
             if (!response.ok) throw new Error("Erro ao buscar o carrinho");
             return await response.json();
         } catch (error) {
@@ -23,7 +21,7 @@ export const CarrinhoService = {
     },
     adicionarItem: async (cartId: number, idproduct: number) => {
         try {
-            const response = await fetch("http://localhost:3000/cart/"+cartId+"/item", {
+            const response = await fetch("https://backendrs.onrender.com/cart/" + cartId + "/item", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -41,26 +39,25 @@ export const CarrinhoService = {
             return false;
         }
     },
-    removerItem: async (cartId:number, productId:number) =>{
-        try{
-            const response = await fetch("http://localhost:3000/cart/"+cartId+"/item/"+productId,{
-                method:"DELETE"
-            })
+    removerItem: async (cartId: number, productId: number) => {
+        try {
+            const response = await fetch("https://backendrs.onrender.com/cart/" + cartId + "/item/" + productId, {
+                method: "DELETE"
+            });
 
-            if(!response){
-                return false
+            if (!response) {
+                return false;
             }
 
-            return true
-        } catch(error){
-            console.log(error)
-            return false
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
         }
-    }
-    ,
-    atualizarQuant: async (id:number,productId:number,qt:number) =>{
-        try{
-            const response = await fetch("http://localhost:3000/cart/"+id+"/item", {
+    },
+    atualizarQuant: async (id: number, productId: number, qt: number) => {
+        try {
+            const response = await fetch("https://backendrs.onrender.com/cart/" + id + "/item", {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -71,35 +68,33 @@ export const CarrinhoService = {
                 })
             });
 
-            if(!response){
-                return false
+            if (!response) {
+                return false;
             } 
 
-            return true
-        } catch(error){
-            console.log(error)
-            return false
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
         }
     },
     checkoutCarrinho: async (cart: number, userID: number) => {
         try {
-            const response = await fetch(`http://localhost:3000/cart/${cart}/checkout`, {
+            const response = await fetch(`https://backendrs.onrender.com/cart/${cart}/checkout`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 }
             });
-    
+
             const novoCarrinho = await CarrinhoService.criarCarrinho(userID);
-    
+
             sessionStorage.setItem("Carrinho", JSON.stringify(novoCarrinho));
-    
+
             return response;
         } catch (error) {
             console.error("Erro no checkout:", error);
             return error;
         }
     }
-    
-    
-}        
+}
