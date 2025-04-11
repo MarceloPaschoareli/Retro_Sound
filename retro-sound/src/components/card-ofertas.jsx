@@ -55,7 +55,7 @@ function CardOferta({ categoria, imagem, preco, nome, id }) {
                 <img src={adicionar}/>
                 <p>ADICIONAR AO CARRINHO</p>
             </div>
-            <AdicionadoPopUp open={carrinho} />
+            <AdicionadoPopUp open={carrinho} texto="ADCIONADO AO CARRRINHO"/>
         </div>
     );
 }

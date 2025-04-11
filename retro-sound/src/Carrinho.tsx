@@ -1,124 +1,104 @@
 import styles from "./Carrinho.module.css"
 import { NavBar } from "./components/nav-bar"
 import { useEffect, useState } from "react";
-import camisa from "./assets/camiseta.png"
-import { Produto } from "./components/produto";
 import vazio from "./assets/vazio.svg"
 import { useNavigate } from "react-router-dom";
 import Caminho from "./assets/carrinho/Caminho.svg"
 import { CarrinhoService } from "./service/CarrinhoService";
 import { cookies } from "./hooks/cookie";
+import { Produto } from "./components/produto";
 
 interface ProdutoCarrinho {
-    quantity:number;
-    product:{
-    id:number;
-    category: string;
-    url_photo: string; 
-    price: number;
-    name: string;
-    stock:number
-    }
+    quantity: number;
+    product: {
+        id: number;
+        category: string;
+        url_photo: string;
+        price: number;
+        name: string;
+        stock: number;
+    };
 }
-
-
 
 function Carrinho() {
     const [filtro, setFiltro] = useState("");
     const [valor, setValor] = useState(0);
     const [carrinho, setCarrinho] = useState<ProdutoCarrinho[]>([]);
-
     const navigate = useNavigate();
 
     useEffect(() => {
-        const carrinhoSalvo = sessionStorage.getItem("Carrinho");
-        if (carrinhoSalvo) {
-            setCarrinho(JSON.parse(carrinhoSalvo));
-        }
-    }, []);
-
-
-    useEffect (() =>{
         cookies.inicializarSessionStorage()
-        if (!cookies.verificarLogin()){
-          navigate("/login")
+        if (!cookies.verificarLogin()) {
+            navigate("/login")
         }
-      }, [])
+    }, [])
 
     useEffect(() => {
         const visualizarProdutos = async () => {
             const idUsuario = Number(sessionStorage.getItem("idUsuario"));
             if (!idUsuario) return;
-    
+
             try {
                 const response = await CarrinhoService.getCarrinho(idUsuario);
-    
+
                 if (!response) {
                     console.error("Erro: Resposta da API está vazia.");
                     return;
                 }
-    
+
                 const carrinhoData = {
                     id: response.id,
                     items: response.items || []
                 };
-    
+
                 setCarrinho(carrinhoData.items);
-    
+
                 const total = response.items.reduce((acc: number, item: ProdutoCarrinho) => {
                     return acc + item.product.price * item.quantity;
                 }, 0);
-    
+
                 setValor(total);
-    
                 sessionStorage.setItem("Carrinho", JSON.stringify(carrinhoData));
-    
-                console.log("Carrinho salvo corretamente no sessionStorage:", carrinhoData);
             } catch (error) {
                 console.error("Erro ao buscar o carrinho:", error);
             }
         };
-    
+
         visualizarProdutos();
     }, []);
-    
 
-    const removerDoCarrinho = (idProduto: number) => {
+    const atualizarQuantidade = (idProduto: number, novaQuantidade: number) => {
         const carrinhoSalvo = JSON.parse(sessionStorage.getItem("Carrinho") || "{}");
-    
-        const novoCarrinho = carrinhoSalvo.items.filter((item: ProdutoCarrinho) => item.product.id !== idProduto);
-    
+
+        const novoCarrinho = carrinho
+            .map((item) => {
+                if (item.product.id === idProduto) {
+                    return { ...item, quantity: novaQuantidade };
+                }
+                return item;
+            })
+            .filter(item => item.quantity > 0);
+
         setCarrinho(novoCarrinho);
-    
+
         sessionStorage.setItem("Carrinho", JSON.stringify({
             id: carrinhoSalvo.id,
             items: novoCarrinho
         }));
+
+        const total = novoCarrinho.reduce((acc: number, item: ProdutoCarrinho) => {
+            return acc + item.product.price * item.quantity;
+        }, 0);
+        setValor(total);
     };
-    
-    
-    
-    
-    useEffect(() => {
-        const carrinhoSalvo = sessionStorage.getItem("Carrinho");
-        const carrinhoAtualizado = {
-            id: carrinhoSalvo ? JSON.parse(carrinhoSalvo).id : null,
-            items: carrinho
-        };
-    
-        sessionStorage.setItem("Carrinho", JSON.stringify(carrinhoAtualizado));
-    }, [carrinho]);
-    
-    
 
     const Voltar = () => {
         navigate("/");
     };
 
     const pagarCarrinho = () => {
-        navigate("/"+Math.random()*1000+"/"+valor)
+        navigate("/" + Math.random() * 1000 + "/" + valor);
     };
-    
 
     return (
         <div className={styles.tudo}>
@@ -131,17 +111,18 @@ function Carrinho() {
                         </div>
                         <div className={styles.carrinhoC}>
                             <div className={styles.lista}>
-                            {carrinho.map((carro, index) => (
-                                    <Produto 
-                                    id={carro.product.id}
-                                    categoria={carro.product.category}
-                                    imagem={carro.product.url_photo}
-                                    preco={carro.product.price}
-                                    nome={carro.product.name}
-                                    quant={carro.quantity}
-                                    atualizarCarrinho={removerDoCarrinho}
-                                    stock={carro.product.stock}
-                                />                                
+                                {carrinho.map((carro) => (
+                                    <Produto
+                                        key={carro.product.id}
+                                        id={carro.product.id}
+                                        categoria={carro.product.category}
+                                        imagem={carro.product.url_photo}
+                                        preco={carro.product.price}
+                                        nome={carro.product.name}
+                                        quant={carro.quantity}
+                                        atualizarCarrinho={atualizarQuantidade}
+                                        stock={carro.product.stock}
+                                    />
                                 ))}
                             </div>
 

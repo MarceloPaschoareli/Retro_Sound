@@ -26,6 +26,23 @@ export const UserService = {
         }
     },
 
+    getEmail: async(email:string)=>{
+        try {
+            const response = await fetch(`https://backendrs.onrender.com/user/login/${email}`);
+
+            if (!response.ok) {
+                return false;
+            }
+
+            const data = await response.json();
+
+            return data
+        } catch (error) {
+            console.error("Erro ao tentar fazer login:", error);
+            return false;
+        }
+    },
+
     verificarEmail: async (email: string) => {
         if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
             return "Formato de e-mail inválido!";

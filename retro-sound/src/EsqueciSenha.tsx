@@ -21,11 +21,9 @@ function CadastrarUser (){
     const navigate = useNavigate()
 
     const HandlerClick = async () =>{
-        const login = await UserService.fazerLogin(email,senha)
+        const login = await UserService.getEmail(email)
         const user = await UserService.getUser(email);
         if (login){
-            console.log(user)
-            console.log(login)
             UserService.atualizarSenha(user.id,senhaConfirmar)
             setInfoLogado("")
             navigate("/login")
@@ -56,11 +54,11 @@ function CadastrarUser (){
                             </div>
                              <div id={style.email}>
                             <img src={senhaImg} />
-                            <input type="password" placeholder="SENHA ATUAL" id="senha" onChange={ (e) => setSenha(e.target.value)}/>
+                            <input type="password" placeholder="SENHA NOVA" id="senha" onChange={ (e) => setSenha(e.target.value)}/>
                         </div>
                         <div id={style.email}>
                             <img src={senhaImg} />
-                            <input type="password" placeholder="SENHA NOVA" id="senha" onChange={ (e) => setSenhaConfirmar(e.target.value)}/>
+                            <input type="password" placeholder="CONFIRMAR SENHA" id="senha" onChange={ (e) => setSenhaConfirmar(e.target.value)}/>
                         </div>
                         <div id={style.info}>
                             <p >{infoLogado}</p>

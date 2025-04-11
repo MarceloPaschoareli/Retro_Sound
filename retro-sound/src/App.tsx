@@ -8,15 +8,13 @@ import produto from './assets/produto.svg';
 import { myService } from './service/ProductsService';
 import { cookies } from './hooks/cookie';
 import { useNavigate } from 'react-router-dom';
-import { CarrinhoService } from './service/CarrinhoService'; // certifique-se de importar corretamente
+import { CarrinhoService } from './service/CarrinhoService';
 
 function App() {
   const [filtro, setFiltro] = useState("");
   const [itens, setItens] = useState([]);
   const [quantidadeItens, setQuantidadeItens] = useState(0);
-
-  const userIdStr = sessionStorage.getItem("idUsuario");
-  const userId = userIdStr ? parseInt(userIdStr) : undefined;
+  const [userId, setUserId] = useState<number | undefined>(undefined);
 
   const navigate = useNavigate();
 
@@ -24,6 +22,14 @@ function App() {
     cookies.inicializarSessionStorage();
     if (!cookies.verificarLogin()) {
       navigate("/login");
+    } else {
+      const id = sessionStorage.getItem("idUsuario");
+      if (id) {
+        setUserId(parseInt(id));
+        console.log("ID do usuário encontrado na sessão:", id);
+      } else {
+        console.warn("Nenhum ID de usuário encontrado no sessionStorage.");
+      }
     }
   }, [navigate]);
 
@@ -52,24 +58,29 @@ function App() {
   }, [filtro]);
 
   useEffect(() => {
-    const fetchCarrinho = async () => {
-      if (!userId) return;
+    if (!userId) return;
 
-      try {
-        const response = await CarrinhoService.getCarrinho(userId);
+    const timeout = setTimeout(() => {
+      const fetchCarrinho = async () => {
+        try {
+          const response = await CarrinhoService.getCarrinho(userId);
+          console.log("Carrinho carregado:", response);
 
-        sessionStorage.setItem("Carrinho", JSON.stringify(response));
-        const total = response.items?.reduce(
-          (acc: number, item: { quantity: number }) => acc + item.quantity,
-          0
-        ) || 0;
-        setQuantidadeItens(total);
-      } catch (error) {
-        console.error("Erro ao buscar o carrinho:", error);
-      }
-    };
+          sessionStorage.setItem("Carrinho", JSON.stringify(response));
+          const total = response.items?.reduce(
+            (acc: number, item: { quantity: number }) => acc + item.quantity,
+            0
+          ) || 0;
+          setQuantidadeItens(total);
+        } catch (error) {
+          console.error("Erro ao buscar o carrinho:", error);
+        }
+      };
 
-    fetchCarrinho();
+      fetchCarrinho();
+    }, 1000); 
+
+    return () => clearTimeout(timeout);
   }, [userId]);
 
   return (

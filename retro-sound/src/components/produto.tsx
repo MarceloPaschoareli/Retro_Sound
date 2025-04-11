@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import style from "./produto.module.css";
 import lixo from "../assets/lixeira.svg";
 import { CarrinhoService } from "../service/CarrinhoService";
@@ -10,75 +9,32 @@ interface tipos {
     preco: number;
     nome: string;
     quant: number;
-    stock:number;
-    atualizarCarrinho: (idProduto: number) => void; 
+    stock: number;
+    atualizarCarrinho: (idProduto: number, novaQuantidade: number) => void;
 }
 
 function Produto({ id, categoria, imagem, preco, nome, quant, atualizarCarrinho, stock }: tipos) {
 
-    const diminuir = async () =>{
-        const carrinhoString = sessionStorage.getItem("Carrinho");
-
-         if (!carrinhoString) {
-        console.error("Erro: Dados do carrinho não encontrados!");
-        return;
+    const diminuir = async () => {
+        if (quant > 1) {
+            const carrinhoData = JSON.parse(sessionStorage.getItem("Carrinho") || "{}");
+            await CarrinhoService.atualizarQuant(carrinhoData.id, id, -1);
+            atualizarCarrinho(id, quant - 1);
         }
+    };
 
-        const carrinhoData = JSON.parse(carrinhoString);
-
-        if (!carrinhoData || !carrinhoData.id) {
-        console.error("Erro: ID do carrinho não encontrado!", carrinhoData);
-        return;
+    const aumentar = async () => {
+        if (quant < stock) {
+            const carrinhoData = JSON.parse(sessionStorage.getItem("Carrinho") || "{}");
+            await CarrinhoService.atualizarQuant(carrinhoData.id, id, 1);
+            atualizarCarrinho(id, quant + 1);
         }
-        if(quant!==1){
-         console.log(CarrinhoService.atualizarQuant(carrinhoData.id,id,-1))
-         preco = preco * quant;
-         window.location.reload()
-        }
-    }
-
-    const aumentar = async () =>{
-        const carrinhoString = sessionStorage.getItem("Carrinho");
-
-         if (!carrinhoString) {
-        console.error("Erro: Dados do carrinho não encontrados!");
-        return;
-        }
-
-        const carrinhoData = JSON.parse(carrinhoString);
-
-        if (!carrinhoData || !carrinhoData.id) {
-        console.error("Erro: ID do carrinho não encontrado!", carrinhoData);
-        return;
-        }
-        if(quant!==stock){
-        console.log(CarrinhoService.atualizarQuant(carrinhoData.id,id,1))
-        window.location.reload()
-        }
-    }
+    };
 
     const Excluir = async () => {
-        const Caid = sessionStorage.getItem("Carrinho");
-
-        if (!Caid) {
-            console.error("Carrinho não encontrado no sessionStorage");
-            return;
-        }
-
-        const carrinho = JSON.parse(Caid);
-        const cartId = carrinho.id; 
-
-        if (!cartId) {
-            console.error("Erro: cartId indefinido");
-            return;
-        }
-
-        try {
-            await CarrinhoService.removerItem(cartId, id);
-            atualizarCarrinho(id); 
-        } catch (error) {
-            console.error("Erro ao remover item do carrinho:", error);
-        }
+        const carrinhoData = JSON.parse(sessionStorage.getItem("Carrinho") || "{}");
+        await CarrinhoService.removerItem(carrinhoData.id, id);
+        atualizarCarrinho(id, 0);
     };
 
     return (
@@ -102,7 +58,7 @@ function Produto({ id, categoria, imagem, preco, nome, quant, atualizarCarrinho,
                 </div>
             </div>
             <div className={style.preco}>
-                <p>R$ {(preco*quant).toFixed(2)}</p>
+                <p>R$ {(preco * quant).toFixed(2)}</p>
             </div>
         </div>
     );

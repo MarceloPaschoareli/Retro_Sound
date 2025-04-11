@@ -6,7 +6,8 @@
 }
 
 #vest{
-    width: 12vh;
+    padding: 0.4vh;
+    width: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
