@@ -32,4 +32,4 @@ Estrutura modular de páginas (home, produto, carrinho, etc.)
 🔧 Concluido em parte
 
 ## Desenvolvedores 🧠
-Feito com 💛 por Marcelo Paschoareli, Manuelli Flaviano e Murilo Carvalho
+Feito com 💛 por Marcelo Paschoareli, Manuelli Flaviano e Murilo Soares
