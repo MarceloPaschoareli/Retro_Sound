@@ -1,6 +1,6 @@
-# <center> 🎸 Retro Sound - E-Commerce de Artigos Retrô
-Retro Sound é uma loja virtual voltada para os amantes do estilo retrô e da boa música. Vendemos camisetas, acessórios, instrumentos e, principalmente, artigos musicais com uma pegada vintage.
-O Retro Sound foi desenvolvido no contexto de uma demanda da disciplina de **Desenvolvimento de Aplicações Dinâmicas
+# 🎸 Retro Sound - E-Commerce de Artigos Retrô
+Retro Sound é uma loja virtual voltada para os amantes do estilo retrô e da boa música. Vendemos camisetas, acessórios, instrumentos e, principalmente, artigos musicais com uma pegada vintage.<br>
+O Retro Sound foi desenvolvido no contexto de uma demanda da disciplina de **Desenvolvimento de Aplicações Dinâmicas**
 
 ## 🚀 Funcionalidades
 
